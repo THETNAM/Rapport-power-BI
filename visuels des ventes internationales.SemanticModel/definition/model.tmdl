@@ -1,0 +1,56 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transform File from InternationalSales'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from InternationalSales\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 7/7/2025 5:01:36 AM.
+queryGroup 'Query Errors - 7/7/2025 5:01:36 AM'
+
+	annotation PBI_QueryGroupOrder = 2
+
+/// Errors in queries that were loaded on 7/7/2025 5:11:20 AM.
+queryGroup 'Query Errors - 7/7/2025 5:11:20 AM'
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Transform File from InternationalSales (2)'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Transform File from InternationalSales (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 7/7/2025 6:36:18 AM.
+queryGroup 'Query Errors - 7/7/2025 6:36:18 AM'
+
+	annotation PBI_QueryGroupOrder = 6
+
+annotation PBI_QueryOrder = ["Product","Geography","Manufacturer","Sample File","Parameter1","Transform Sample File","Transform File","InternationalSales","Sample File (2)","Parameter2","Transform Sample File (2)","Transform File (2)","sales","Errors in sales"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.144.878.0 (25.06)+9cca29236de5114792f4d7188221f91ad4a5cc50
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Product
+ref table Geography
+ref table Manufacturer
+ref table sales
+ref table DateTableTemplate_517f0565-1f31-4816-80ca-e2abcb328d92
+ref table LocalDateTable_6b3f8852-2f7f-489c-aba6-23fe27877d48
+
+ref cultureInfo en-US
+

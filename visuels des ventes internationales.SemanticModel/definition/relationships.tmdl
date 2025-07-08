@@ -1,0 +1,17 @@
+relationship AutoDetected_85a67b34-079e-4cb8-b6cf-2f25172c4d58
+	fromColumn: Product.ManufacturerID
+	toColumn: Manufacturer.ManufacturerID
+
+relationship 3ec16124-c691-4c7a-a025-344b81820868
+	joinOnDateBehavior: datePartOnly
+	fromColumn: sales.Date
+	toColumn: LocalDateTable_6b3f8852-2f7f-489c-aba6-23fe27877d48.Date
+
+relationship 28056240-1ca4-4e1f-8a6b-9a77a6483773
+	fromColumn: sales.ProductID
+	toColumn: Product.ProductID
+
+relationship 325a0610-f6d7-8a7d-6a6d-92a1235fd06b
+	fromColumn: sales.zipCountry
+	toColumn: Geography.zipCountry
+

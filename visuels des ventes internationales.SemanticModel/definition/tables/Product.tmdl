@@ -1,0 +1,95 @@
+table Product
+	lineageTag: 089ea6a3-1677-4531-bb6c-3ee51b4f3065
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		lineageTag: f380892d-6ce2-40ac-91d9-e67e16f1d33c
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 88da44d7-e866-4cb2-9a9d-d45b8a7de5ea
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Period
+		dataType: string
+		lineageTag: 44b25bdc-c557-4275-a6d3-f0346c972acb
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: c1ddda15-3a3f-43f1-bee5-fdf712aec9c2
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column ManufacturerID
+		dataType: int64
+		formatString: 0
+		lineageTag: 956a0b90-e050-4de4-87de-1451aa08ecac
+		summarizeBy: none
+		sourceColumn: ManufacturerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Currency
+		dataType: string
+		lineageTag: e1881815-09ae-4791-bc4c-106b0f5e3c49
+		summarizeBy: none
+		sourceColumn: Currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: 4c46e609-220b-48e5-99fb-fac621ce4dec
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	hierarchy 'Category Hierarchy'
+		lineageTag: 11650e40-f4ed-4a85-9b38-41d02379f9b3
+
+		level Category
+			lineageTag: 50fb5533-35d1-4888-ae54-2289a8de42e9
+			column: Category
+
+		level Product
+			lineageTag: 4d3f4cf7-224b-4143-8fa6-06fe50e62f62
+			column: Product
+
+	partition Product = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\TABOULA\Desktop\DATA SCIENCE\datasets\Fichiers de travail\Data\USSales\bi_dimensions.xlsx"), null, true),
+				    Product_Table_Table = Source{[Item="Product_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Product_Table_Table,{{"ProductID", Int64.Type}, {"Product", type text}, {"Category", type text}, {"ManufacturerID", Int64.Type}, {"Price", type text}}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Changed Type", "Product", Splitter.SplitTextByDelimiter("|", QuoteStyle.Csv), {"Product.1", "Product.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Product.1", type text}, {"Product.2", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"Product.1", "Product"}, {"Product.2", "Period"}}),
+				    #"Filled Down" = Table.FillDown(#"Renamed Columns",{"Category"}),
+				    #"Split Column by Delimiter1" = Table.SplitColumn(#"Filled Down", "Price", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Price.1", "Price.2"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter1",{{"Price.1", type text}, {"Price.2", type number}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type2",{{"Price.2", "Price"}, {"Price.1", "Currency"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
